@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sacola de Compras</title>
+  <!-- Importa a fonte Lora -->
+  <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lora', serif;
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-right: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sacola de Compras</h1>
+  <div id="cartContainer">
+    <!-- A tabela de produtos será gerada aqui -->
+  </div>
+  <div style="text-align: center;">
+    <a href="catalogo.html" class="button">Continuar Comprando</a>
+    <a href="#" class="button" id="finalizeButton">Processar Pedido</a>
+  </div>
+  <script>
+    // Recupera os itens do carrinho do localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartContainer = document.getElementById('cartContainer');
+    
+    if(cart.length === 0) {
+      cartContainer.innerHTML = "<p>Sua sacola está vazia.</p>";
+      document.getElementById('finalizeButton').style.display = 'none';
+    } else {
+      let tableHTML = '<table><thead><tr><th>Produto</th><th>Preço</th><th>Quantidade</th><th>Total</th></tr></thead><tbody>';
+      let grandTotal = 0;
+      cart.forEach(item => {
+        tableHTML += `<tr>
+          <td>${item.name}</td>
+          <td>R$${parseFloat(item.price).toFixed(2)}</td>
+          <td>${item.qty}</td>
+          <td>R$${(item.price * item.qty).toFixed(2)}</td>
+        </tr>`;
+        grandTotal += item.price * item.qty;
+      });
+      tableHTML += `<tr>
+         <td colspan="3" style="text-align:right;"><strong>Total Geral:</strong></td>
+         <td><strong>R$${grandTotal.toFixed(2)}</strong></td>
+      </tr>`;
+      tableHTML += '</tbody></table>';
+      cartContainer.innerHTML = tableHTML;
+    }
+    
+    // Botão Finalizar Pedido: envia o pedido para o WhatsApp com a mensagem formatada
+    document.getElementById('finalizeButton').addEventListener('click', function(e) {
+      e.preventDefault();
+      if(cart.length === 0) return;
+      let message = "Pedido:\n";
+      cart.forEach(item => {
+        message += `${item.name} | Quantidade: ${item.qty} | Total: R$${(item.price * item.qty).toFixed(2)}\n`;
+      });
+      const whatsappURL = "https://wa.me/5537999139844?text=" + encodeURIComponent(message);
+      // Opcional: limpar o carrinho após finalizar
+      // localStorage.removeItem('cart');
+      window.location.href = whatsappURL;
+    });
+  </script>
+</body>
+</html>
+
