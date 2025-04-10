@@ -21,14 +21,14 @@
       color: #000;
       padding: 20px;
       min-height: 100vh;
-      position: relative; /* Para posicionar o botão flutuante */
+      position: relative; /* Para o botão flutuante */
     }
     h1 {
       text-align: center;
       margin-bottom: 30px;
       font-size: 2em;
     }
-    /* Botão flutuante de Sacola (canto direito superior) */
+    /* Botão flutuante para acessar a Sacola (canto direito superior) */
     #floatingSacola {
       position: fixed;
       top: 20px;
@@ -101,9 +101,9 @@
       text-align: center;
       margin-bottom: 5px;
     }
-    /* Botão de adicionar ao carrinho (sacola) */
+    /* Botão de adicionar ao carrinho (ícone da sacola) */
     .add-to-cart {
-      background-color: #fff; /* Cor original */
+      background-color: #fff; /* Estado original */
       border: 1px solid #ccc;
       border-radius: 50%;
       width: 40px;
@@ -116,10 +116,10 @@
     }
     .add-to-cart i {
       font-size: 1.2em;
-      color: #111; /* Cor original */
+      color: #111; /* Estado original */
       transition: color 0.3s ease;
     }
-    /* Responsividade: em telas menores, a grid terá 2 colunas */
+    /* Responsividade: grid para telas menores terá 2 colunas */
     @media (max-width: 600px) {
       .product-container {
         grid-template-columns: repeat(2, 200px);
@@ -128,15 +128,14 @@
   </style>
 </head>
 <body>
-  <!-- Botão flutuante para acessar a Sacola -->
+  <!-- Botão flutuante para acessar a página Sacola -->
   <button id="floatingSacola" onclick="window.location.href='sacola.html'">
-    <i class="fas fa-shopping-bag"></i>
-    Sacola
+    <i class="fas fa-shopping-bag"></i> Sacola
   </button>
   
   <h1>Catálogo de Produtos</h1>
   
-  <!-- Exemplo para a Família 1: ANILHA SPORT PINTADA -->
+  <!-- Exemplo: Família 1: ANILHA SPORT PINTADA -->
   <div class="family-section">
     <div class="family-title">ANILHA SPORT PINTADA</div>
     <div class="product-container">
@@ -183,30 +182,32 @@
     </div>
   </div>
   
-  <!-- Outras famílias seguem o mesmo padrão... -->
+  <!-- Outras famílias seguirão o mesmo padrão. -->
   
   <script>
-    // Função de toggle para adicionar/remover produto do carrinho
+    // Função para adicionar ou remover o produto do carrinho (toggle)
     function toggleCart(btn) {
       const card = btn.parentElement;
       const productName = card.getAttribute('data-name');
       const productPrice = parseFloat(card.getAttribute('data-price'));
       const productQty = parseInt(card.querySelector('.product-qty').value) || 0;
       
-      // Recupera o carrinho do localStorage (ou cria um array vazio)
+      // Recupera o carrinho (ou cria um array vazio se não existir)
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      // Procura se o produto já existe no carrinho (usando o nome exclusivo)
-      const existingIndex = cart.findIndex(item => item.name === productName);
       
-      if (existingIndex !== -1) {
-        // Se já estiver, remova-o e ajuste o botão para o estado original
-        cart.splice(existingIndex, 1);
+      // Procura o índice do produto no carrinho (usando nome único)
+      const index = cart.findIndex(item => item.name === productName);
+      
+      if (index !== -1) {
+        // Produto já está no carrinho, então remove
+        cart.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cart));
-        btn.style.backgroundColor = "#fff"; // cor original do botão
-        btn.querySelector("i").style.color = "#111"; // cor original do ícone
+        // Restaura o botão ao estado original
+        btn.style.backgroundColor = "#fff"; 
+        btn.querySelector("i").style.color = "#111";
         alert("Item removido do carrinho: " + productName);
       } else {
-        // Se não estiver no carrinho, verifica se a quantidade é válida
+        // Adiciona produto ao carrinho somente se a quantidade for válida
         if (productQty <= 0) {
           alert("Selecione uma quantidade válida para adicionar ao carrinho.");
           return;
@@ -214,7 +215,8 @@
         const total = productPrice * productQty;
         cart.push({ name: productName, price: productPrice, qty: productQty, total: total });
         localStorage.setItem('cart', JSON.stringify(cart));
-        btn.style.backgroundColor = "green"; // indica adição
+        // Atualiza o botão para indicar que o item foi adicionado
+        btn.style.backgroundColor = "green";
         btn.querySelector("i").style.color = "white";
         alert("Adicionado ao carrinho: " + productName);
       }
@@ -222,9 +224,6 @@
   </script>
 </body>
 </html>
-
-
-
 
 
 
