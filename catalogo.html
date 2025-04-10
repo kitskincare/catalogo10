@@ -28,7 +28,7 @@
       margin-bottom: 30px;
       font-size: 2em;
     }
-    /* Botão flutuante para acessar a Sacola (canto direito superior) */
+    /* Botão flutuante para acessar a Sacola (canto superior direito) */
     #floatingSacola {
       position: fixed;
       top: 20px;
@@ -119,7 +119,7 @@
       color: #111; /* Estado original */
       transition: color 0.3s ease;
     }
-    /* Responsividade: grid para telas menores terá 2 colunas */
+    /* Responsividade: para telas menores, a grid terá 2 colunas */
     @media (max-width: 600px) {
       .product-container {
         grid-template-columns: repeat(2, 200px);
@@ -135,7 +135,7 @@
   
   <h1>Catálogo de Produtos</h1>
   
-  <!-- Exemplo: Família 1: ANILHA SPORT PINTADA -->
+  <!-- Família 1: ANILHA SPORT PINTADA -->
   <div class="family-section">
     <div class="family-title">ANILHA SPORT PINTADA</div>
     <div class="product-container">
@@ -182,10 +182,15 @@
     </div>
   </div>
   
-  <!-- Outras famílias seguirão o mesmo padrão. -->
+  <!-- Outras famílias seguem o mesmo padrão... -->
   
   <script>
-    // Função para adicionar ou remover o produto do carrinho (toggle)
+    // Limpa o carrinho ao carregar a página para começar vazio
+    window.onload = function() {
+      localStorage.removeItem('cart');
+    };
+
+    // Função de toggle para adicionar ou remover o produto do carrinho
     function toggleCart(btn) {
       const card = btn.parentElement;
       const productName = card.getAttribute('data-name');
@@ -195,19 +200,19 @@
       // Recupera o carrinho (ou cria um array vazio se não existir)
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
       
-      // Procura o índice do produto no carrinho (usando nome único)
+      // Procura o índice do produto no carrinho
       const index = cart.findIndex(item => item.name === productName);
       
       if (index !== -1) {
-        // Produto já está no carrinho, então remove
+        // Se o produto já está no carrinho, remova-o
         cart.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cart));
-        // Restaura o botão ao estado original
-        btn.style.backgroundColor = "#fff"; 
+        // Restaura as cores originais do botão
+        btn.style.backgroundColor = "#fff";
         btn.querySelector("i").style.color = "#111";
         alert("Item removido do carrinho: " + productName);
       } else {
-        // Adiciona produto ao carrinho somente se a quantidade for válida
+        // Se o produto ainda não está no carrinho, adiciona-o somente se a quantidade for maior que zero
         if (productQty <= 0) {
           alert("Selecione uma quantidade válida para adicionar ao carrinho.");
           return;
@@ -215,7 +220,7 @@
         const total = productPrice * productQty;
         cart.push({ name: productName, price: productPrice, qty: productQty, total: total });
         localStorage.setItem('cart', JSON.stringify(cart));
-        // Atualiza o botão para indicar que o item foi adicionado
+        // Atualiza o botão para indicar que o item foi adicionado (fundo verde, ícone branco)
         btn.style.backgroundColor = "green";
         btn.querySelector("i").style.color = "white";
         alert("Adicionado ao carrinho: " + productName);
