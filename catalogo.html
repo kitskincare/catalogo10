@@ -3,232 +3,137 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Catálogo de Produtos</title>
-  <!-- Importa Font Awesome para os ícones -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" />
+  <title>Sacola de Compras</title>
   <!-- Importa a fonte Lora -->
   <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
+  <!-- Importa Font Awesome para os ícones -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" />
   <style>
-    /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
       font-family: 'Lora', serif;
       background-color: #fff;
       color: #000;
       padding: 20px;
-      min-height: 100vh;
-      position: relative; /* Para o botão flutuante */
     }
     h1 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       font-size: 2em;
     }
-    /* Botão flutuante para acessar a Sacola (canto superior direito) */
-    #floatingSacola {
-      position: fixed;
-      top: 20px;
-      right: 20px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
       background-color: #007BFF;
       color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 10px 15px;
-      font-size: 1em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      z-index: 1000;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      text-decoration: none;
+      border-radius: 5px;
+      margin-right: 10px;
       transition: background-color 0.3s ease;
+      cursor: pointer;
     }
-    #floatingSacola:hover {
+    .button:hover {
       background-color: #0056b3;
     }
-    /* Seção de cada família de produtos */
-    .family-section {
-      margin-bottom: 40px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-    }
-    .family-title {
-      font-weight: bold;
-      margin-bottom: 15px;
-      font-size: 1.5em;
-      padding-left: 10px;
-    }
-    /* Container de produtos organizado em grid de 4 colunas */
-    .product-container {
-      display: grid;
-      grid-template-columns: repeat(4, 250px);
-      gap: 20px;
-    }
-    /* Cada produto (card) */
-    .product-card {
-      background-color: #f8f8f8;
-      padding: 10px;
-      border-radius: 12px;
-      text-align: center;
-      border: 1px solid #ccc;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-    }
-    .product-image {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .product-name {
-      font-size: 1.1em;
-      margin-bottom: 5px;
-    }
-    .product-price {
-      font-size: 1em;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-    .product-qty {
-      width: 80px;
-      padding: 5px;
-      text-align: center;
-      margin-bottom: 5px;
-    }
-    /* Botão de adicionar ao carrinho (ícone da sacola) */
-    .add-to-cart {
-      background-color: #fff; /* Estado original */
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
+    /* Botão de excluir (ação) em cada linha */
+    .delete-button {
+      background: none;
+      border: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    .add-to-cart:hover {
-      background-color: #ddd;
-    }
-    .add-to-cart i {
-      font-size: 1.2em;
-      color: #111; /* Estado original */
+      color: #d00;
+      font-size: 1em;
       transition: color 0.3s ease;
     }
-    /* Responsividade: para telas menores, a grid terá 2 colunas */
-    @media (max-width: 600px) {
-      .product-container {
-        grid-template-columns: repeat(2, 200px);
-      }
+    .delete-button:hover {
+      color: #a00;
     }
   </style>
 </head>
 <body>
-  <!-- Botão flutuante para acessar a página Sacola -->
-  <button id="floatingSacola" onclick="window.location.href='sacola.html'">
-    <i class="fas fa-shopping-bag"></i> Sacola
-  </button>
-  
-  <h1>Catálogo de Produtos</h1>
-  
-  <!-- Família 1: ANILHA SPORT PINTADA -->
-  <div class="family-section">
-    <div class="family-title">ANILHA SPORT PINTADA</div>
-    <div class="product-container">
-      <!-- Produto 1 -->
-      <div class="product-card" data-name="ANILHA SPORT PINTADA1" data-price="10.00">
-        <img src="ANILHA SPORT PINTADA1.jpg" alt="ANILHA SPORT PINTADA1" class="product-image">
-        <p class="product-name">ANILHA SPORT PINTADA1</p>
-        <p class="product-price">R$10,00</p>
-        <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="toggleCart(this)">
-          <i class="fas fa-shopping-bag"></i>
-        </button>
-      </div>
-      <!-- Produto 2 -->
-      <div class="product-card" data-name="ANILHA SPORT PINTADA2" data-price="10.00">
-        <img src="ANILHA SPORT PINTADA2.jpg" alt="ANILHA SPORT PINTADA2" class="product-image">
-        <p class="product-name">ANILHA SPORT PINTADA2</p>
-        <p class="product-price">R$10,00</p>
-        <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="toggleCart(this)">
-          <i class="fas fa-shopping-bag"></i>
-        </button>
-      </div>
-      <!-- Produto 3 -->
-      <div class="product-card" data-name="ANILHA SPORT PINTADA3" data-price="10.00">
-        <img src="ANILHA SPORT PINTADA3.jpg" alt="ANILHA SPORT PINTADA3" class="product-image">
-        <p class="product-name">ANILHA SPORT PINTADA3</p>
-        <p class="product-price">R$10,00</p>
-        <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="toggleCart(this)">
-          <i class="fas fa-shopping-bag"></i>
-        </button>
-      </div>
-      <!-- Produto 4 -->
-      <div class="product-card" data-name="ANILHA SPORT PINTADA4" data-price="10.00">
-        <img src="ANILHA SPORT PINTADA4.jpg" alt="ANILHA SPORT PINTADA4" class="product-image">
-        <p class="product-name">ANILHA SPORT PINTADA4</p>
-        <p class="product-price">R$10,00</p>
-        <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="toggleCart(this)">
-          <i class="fas fa-shopping-bag"></i>
-        </button>
-      </div>
-    </div>
+  <h1>Sacola de Compras</h1>
+  <div id="cartContainer">
+    <!-- A tabela de produtos será gerada aqui -->
+  </div>
+  <div style="text-align: center;">
+    <a href="catalogo.html" class="button">Continuar Comprando</a>
+    <a href="#" class="button" id="finalizeButton">Processar Pedido</a>
   </div>
   
-  <!-- Outras famílias seguem o mesmo padrão... -->
-  
   <script>
-    // Limpa o carrinho ao carregar a página para começar vazio
-    window.onload = function() {
-      localStorage.removeItem('cart');
-    };
-
-    // Função de toggle para adicionar ou remover o produto do carrinho
-    function toggleCart(btn) {
-      const card = btn.parentElement;
-      const productName = card.getAttribute('data-name');
-      const productPrice = parseFloat(card.getAttribute('data-price'));
-      const productQty = parseInt(card.querySelector('.product-qty').value) || 0;
+    // Função para atualizar a exibição do carrinho
+    function updateCartDisplay() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartContainer = document.getElementById('cartContainer');
       
-      // Recupera o carrinho (ou cria um array vazio se não existir)
+      if (cart.length === 0) {
+        cartContainer.innerHTML = "<p>Sua sacola está vazia.</p>";
+        document.getElementById('finalizeButton').style.display = 'none';
+        return;
+      }
+      
+      let tableHTML = '<table><thead><tr><th>Produto</th><th>Preço</th><th>Quantidade</th><th>Total</th><th>Ação</th></tr></thead><tbody>';
+      let grandTotal = 0;
+      
+      cart.forEach(item => {
+        tableHTML += `<tr>
+          <td>${item.name}</td>
+          <td>R$${parseFloat(item.price).toFixed(2)}</td>
+          <td>${item.qty}</td>
+          <td>R$${(item.price * item.qty).toFixed(2)}</td>
+          <td><button class="delete-button" onclick="removeFromCart('${item.name}')"><i class="fas fa-trash"></i></button></td>
+        </tr>`;
+        grandTotal += item.price * item.qty;
+      });
+      tableHTML += `<tr>
+         <td colspan="3" style="text-align:right;"><strong>Total Geral:</strong></td>
+         <td colspan="2"><strong>R$${grandTotal.toFixed(2)}</strong></td>
+      </tr>`;
+      tableHTML += '</tbody></table>';
+      
+      cartContainer.innerHTML = tableHTML;
+      document.getElementById('finalizeButton').style.display = 'inline-block';
+    }
+    
+    // Função para remover um produto do carrinho
+    function removeFromCart(productName) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      
-      // Procura o índice do produto no carrinho
       const index = cart.findIndex(item => item.name === productName);
-      
       if (index !== -1) {
-        // Se o produto já está no carrinho, remova-o
         cart.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cart));
-        // Restaura as cores originais do botão
-        btn.style.backgroundColor = "#fff";
-        btn.querySelector("i").style.color = "#111";
-        alert("Item removido do carrinho: " + productName);
-      } else {
-        // Se o produto ainda não está no carrinho, adiciona-o somente se a quantidade for maior que zero
-        if (productQty <= 0) {
-          alert("Selecione uma quantidade válida para adicionar ao carrinho.");
-          return;
-        }
-        const total = productPrice * productQty;
-        cart.push({ name: productName, price: productPrice, qty: productQty, total: total });
-        localStorage.setItem('cart', JSON.stringify(cart));
-        // Atualiza o botão para indicar que o item foi adicionado (fundo verde, ícone branco)
-        btn.style.backgroundColor = "green";
-        btn.querySelector("i").style.color = "white";
-        alert("Adicionado ao carrinho: " + productName);
+        updateCartDisplay();
       }
     }
+    
+    // Atualiza a exibição do carrinho ao carregar a página
+    updateCartDisplay();
+    
+    // Botão Finalizar Pedido: envia o pedido para o WhatsApp
+    document.getElementById('finalizeButton').addEventListener('click', function(e) {
+      e.preventDefault();
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length === 0) return;
+      let message = "Pedido:\n";
+      cart.forEach(item => {
+        message += `${item.name} | Quantidade: ${item.qty} | Total: R$${(item.price * item.qty).toFixed(2)}\n`;
+      });
+      const whatsappURL = "https://wa.me/5537999139844?text=" + encodeURIComponent(message);
+      // Opcional: limpar o carrinho após finalizar o pedido.
+      // localStorage.removeItem('cart');
+      window.location.href = whatsappURL;
+    });
   </script>
 </body>
 </html>
-
-
 
