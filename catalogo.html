@@ -10,18 +10,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet">
   <style>
     /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Lora', serif;
       background-color: #fff;
       color: #000;
       padding: 20px;
       min-height: 100vh;
-      position: relative; /* Para o botão flutuante */
+      position: relative; /* Para posicionar o botão flutuante */
     }
     h1 {
       text-align: center;
@@ -128,18 +124,17 @@
   </style>
 </head>
 <body>
-  <!-- Botão flutuante para acessar a página Sacola -->
+  <!-- Botão flutuante para acessar a Sacola -->
   <button id="floatingSacola" onclick="window.location.href='sacola.html'">
     <i class="fas fa-shopping-bag"></i> Sacola
   </button>
   
   <h1>Catálogo de Produtos</h1>
   
-  <!-- Exemplo: Família 1: ANILHA SPORT PINTADA -->
+  <!-- Família 1: ANILHA SPORT PINTADA -->
   <div class="family-section">
     <div class="family-title">ANILHA SPORT PINTADA</div>
     <div class="product-container">
-      <!-- Produto 1 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA1" data-price="10.00">
         <img src="ANILHA SPORT PINTADA1.jpg" alt="ANILHA SPORT PINTADA1" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA1</p>
@@ -149,7 +144,6 @@
           <i class="fas fa-shopping-bag"></i>
         </button>
       </div>
-      <!-- Produto 2 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA2" data-price="10.00">
         <img src="ANILHA SPORT PINTADA2.jpg" alt="ANILHA SPORT PINTADA2" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA2</p>
@@ -159,7 +153,6 @@
           <i class="fas fa-shopping-bag"></i>
         </button>
       </div>
-      <!-- Produto 3 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA3" data-price="10.00">
         <img src="ANILHA SPORT PINTADA3.jpg" alt="ANILHA SPORT PINTADA3" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA3</p>
@@ -169,7 +162,6 @@
           <i class="fas fa-shopping-bag"></i>
         </button>
       </div>
-      <!-- Produto 4 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA4" data-price="10.00">
         <img src="ANILHA SPORT PINTADA4.jpg" alt="ANILHA SPORT PINTADA4" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA4</p>
@@ -182,44 +174,80 @@
     </div>
   </div>
   
-  <!-- Outras famílias podem ser adicionadas aqui, seguindo o mesmo padrão -->
+  <!-- Família 2: ANILHA SPORT EMBORRACHADA -->
+  <div class="family-section">
+    <div class="family-title">ANILHA SPORT EMBORRACHADA</div>
+    <div class="product-container">
+      <div class="product-card" data-name="ANILHA SPORT EMBORRACHADA1" data-price="12.00">
+        <img src="ANILHA SPORT EMBORRACHADA1.jpg" alt="ANILHA SPORT EMBORRACHADA1" class="product-image">
+        <p class="product-name">ANILHA SPORT EMBORRACHADA1</p>
+        <p class="product-price">R$12,00</p>
+        <input type="number" class="product-qty" min="0" value="0">
+        <button class="add-to-cart" onclick="toggleCart(this)">
+          <i class="fas fa-shopping-bag"></i>
+        </button>
+      </div>
+      <div class="product-card" data-name="ANILHA SPORT EMBORRACHADA2" data-price="12.00">
+        <img src="ANILHA SPORT EMBORRACHADA2.jpg" alt="ANILHA SPORT EMBORRACHADA2" class="product-image">
+        <p class="product-name">ANILHA SPORT EMBORRACHADA2</p>
+        <p class="product-price">R$12,00</p>
+        <input type="number" class="product-qty" min="0" value="0">
+        <button class="add-to-cart" onclick="toggleCart(this)">
+          <i class="fas fa-shopping-bag"></i>
+        </button>
+      </div>
+      <div class="product-card" data-name="ANILHA SPORT EMBORRACHADA3" data-price="12.00">
+        <img src="ANILHA SPORT EMBORRACHADA3.jpg" alt="ANILHA SPORT EMBORRACHADA3" class="product-image">
+        <p class="product-name">ANILHA SPORT EMBORRACHADA3</p>
+        <p class="product-price">R$12,00</p>
+        <input type="number" class="product-qty" min="0" value="0">
+        <button class="add-to-cart" onclick="toggleCart(this)">
+          <i class="fas fa-shopping-bag"></i>
+        </button>
+      </div>
+      <div class="product-card" data-name="ANILHA SPORT EMBORRACHADA4" data-price="12.00">
+        <img src="ANILHA SPORT EMBORRACHADA4.jpg" alt="ANILHA SPORT EMBORRACHADA4" class="product-image">
+        <p class="product-name">ANILHA SPORT EMBORRACHADA4</p>
+        <p class="product-price">R$12,00</p>
+        <input type="number" class="product-qty" min="0" value="0">
+        <button class="add-to-cart" onclick="toggleCart(this)">
+          <i class="fas fa-shopping-bag"></i>
+        </button>
+      </div>
+    </div>
+  </div>
   
   <script>
-    // Função de toggle para adicionar ou atualizar o produto no carrinho
+    // Não limpamos o carrinho ao carregar a página, para preservar itens já adicionados
+    
+    // Função de toggle para adicionar ou remover o produto do carrinho
     function toggleCart(btn) {
       const card = btn.parentElement;
       const productName = card.getAttribute('data-name');
       const productPrice = parseFloat(card.getAttribute('data-price'));
       const productQty = parseInt(card.querySelector('.product-qty').value) || 0;
       
-      // Recupera o carrinho ou cria um novo array se não existir
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      
-      // Procura se o produto já está no carrinho
       const index = cart.findIndex(item => item.name === productName);
       
       if (index !== -1) {
-        // Produto já existe: se a nova quantidade for > 0, soma, caso contrário, remove
+        // Se já estiver no carrinho, se a nova quantidade for > 0, soma; se for 0, remove
         if (productQty > 0) {
           cart[index].qty += productQty;
           cart[index].total = cart[index].price * cart[index].qty;
           alert("Quantidade atualizada para " + cart[index].qty + " em " + productName);
         } else {
-          // Se o produto estiver no carrinho e a quantidade for 0, remove o item
           cart.splice(index, 1);
           alert("Item removido do carrinho: " + productName);
-          // Restaura o botão para o estado original
           btn.style.backgroundColor = "#fff";
           btn.querySelector("i").style.color = "#111";
           localStorage.setItem('cart', JSON.stringify(cart));
           return;
         }
         localStorage.setItem('cart', JSON.stringify(cart));
-        // Atualiza o botão para manter o estado "adicionado"
         btn.style.backgroundColor = "green";
         btn.querySelector("i").style.color = "white";
       } else {
-        // Se o produto não está no carrinho e a quantidade é válida, adiciona-o
         if (productQty <= 0) {
           alert("Selecione uma quantidade válida para adicionar ao carrinho.");
           return;
@@ -227,7 +255,6 @@
         const total = productPrice * productQty;
         cart.push({ name: productName, price: productPrice, qty: productQty, total: total });
         localStorage.setItem('cart', JSON.stringify(cart));
-        // Atualiza o botão para indicar que o item foi adicionado
         btn.style.backgroundColor = "green";
         btn.querySelector("i").style.color = "white";
         alert("Adicionado ao carrinho: " + productName);
@@ -236,4 +263,5 @@
   </script>
 </body>
 </html>
+
 
