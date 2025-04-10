@@ -21,7 +21,7 @@
       color: #000;
       padding: 20px;
       min-height: 100vh;
-      position: relative; /* Para permitir o posicionamento fixo do botão flutuante */
+      position: relative; /* Para posicionar o botão flutuante */
     }
     h1 {
       text-align: center;
@@ -103,7 +103,7 @@
     }
     /* Botão de adicionar ao carrinho (sacola) */
     .add-to-cart {
-      background-color: #fff;
+      background-color: #fff; /* Cor original */
       border: 1px solid #ccc;
       border-radius: 50%;
       width: 40px;
@@ -116,7 +116,7 @@
     }
     .add-to-cart i {
       font-size: 1.2em;
-      color: #111;
+      color: #111; /* Cor original */
       transition: color 0.3s ease;
     }
     /* Responsividade: em telas menores, a grid terá 2 colunas */
@@ -140,77 +140,89 @@
   <div class="family-section">
     <div class="family-title">ANILHA SPORT PINTADA</div>
     <div class="product-container">
+      <!-- Produto 1 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA1" data-price="10.00">
         <img src="ANILHA SPORT PINTADA1.jpg" alt="ANILHA SPORT PINTADA1" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA1</p>
         <p class="product-price">R$10,00</p>
         <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="addToCart(this)">
+        <button class="add-to-cart" onclick="toggleCart(this)">
           <i class="fas fa-shopping-bag"></i>
         </button>
       </div>
+      <!-- Produto 2 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA2" data-price="10.00">
         <img src="ANILHA SPORT PINTADA2.jpg" alt="ANILHA SPORT PINTADA2" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA2</p>
         <p class="product-price">R$10,00</p>
         <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="addToCart(this)">
+        <button class="add-to-cart" onclick="toggleCart(this)">
           <i class="fas fa-shopping-bag"></i>
         </button>
       </div>
+      <!-- Produto 3 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA3" data-price="10.00">
         <img src="ANILHA SPORT PINTADA3.jpg" alt="ANILHA SPORT PINTADA3" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA3</p>
         <p class="product-price">R$10,00</p>
         <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="addToCart(this)">
+        <button class="add-to-cart" onclick="toggleCart(this)">
           <i class="fas fa-shopping-bag"></i>
         </button>
       </div>
+      <!-- Produto 4 -->
       <div class="product-card" data-name="ANILHA SPORT PINTADA4" data-price="10.00">
         <img src="ANILHA SPORT PINTADA4.jpg" alt="ANILHA SPORT PINTADA4" class="product-image">
         <p class="product-name">ANILHA SPORT PINTADA4</p>
         <p class="product-price">R$10,00</p>
         <input type="number" class="product-qty" min="0" value="0">
-        <button class="add-to-cart" onclick="addToCart(this)">
+        <button class="add-to-cart" onclick="toggleCart(this)">
           <i class="fas fa-shopping-bag"></i>
         </button>
       </div>
     </div>
   </div>
   
-  <!-- Outras famílias seguem o mesmo padrão... (omitidas para brevidade) -->
+  <!-- Outras famílias seguem o mesmo padrão... -->
   
   <script>
-    // Função para adicionar um produto ao carrinho
-    function addToCart(btn) {
+    // Função de toggle para adicionar/remover produto do carrinho
+    function toggleCart(btn) {
       const card = btn.parentElement;
-      const name = card.getAttribute('data-name');
-      const price = parseFloat(card.getAttribute('data-price'));
-      const qty = parseInt(card.querySelector('.product-qty').value) || 0;
+      const productName = card.getAttribute('data-name');
+      const productPrice = parseFloat(card.getAttribute('data-price'));
+      const productQty = parseInt(card.querySelector('.product-qty').value) || 0;
       
-      if(qty <= 0) {
-        alert("Selecione uma quantidade válida para adicionar ao carrinho.");
-        return;
-      }
-      
-      const total = price * qty;
-      // Recupera o carrinho armazenado em localStorage ou cria um array vazio
+      // Recupera o carrinho do localStorage (ou cria um array vazio)
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      // Adiciona o item ao carrinho
-      cart.push({ name, price, qty, total });
-      localStorage.setItem('cart', JSON.stringify(cart));
+      // Procura se o produto já existe no carrinho (usando o nome exclusivo)
+      const existingIndex = cart.findIndex(item => item.name === productName);
       
-      // Altera o botão para indicar que o produto foi adicionado:
-      btn.style.backgroundColor = "green";            // muda o fundo para verde
-      const icon = btn.querySelector("i");
-      icon.style.color = "white";                       // muda a cor do ícone para branco
-      
-      // Não redireciona; o usuário permanece na página catalogo.html
+      if (existingIndex !== -1) {
+        // Se já estiver, remova-o e ajuste o botão para o estado original
+        cart.splice(existingIndex, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        btn.style.backgroundColor = "#fff"; // cor original do botão
+        btn.querySelector("i").style.color = "#111"; // cor original do ícone
+        alert("Item removido do carrinho: " + productName);
+      } else {
+        // Se não estiver no carrinho, verifica se a quantidade é válida
+        if (productQty <= 0) {
+          alert("Selecione uma quantidade válida para adicionar ao carrinho.");
+          return;
+        }
+        const total = productPrice * productQty;
+        cart.push({ name: productName, price: productPrice, qty: productQty, total: total });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        btn.style.backgroundColor = "green"; // indica adição
+        btn.querySelector("i").style.color = "white";
+        alert("Adicionado ao carrinho: " + productName);
+      }
     }
   </script>
 </body>
 </html>
+
 
 
 
